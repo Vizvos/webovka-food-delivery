@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Správa Domovské Stránky</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="restaurant-nav">
+            <ul>
+        <li><a href="{{ url_for('views.edit_homepage') }}">Hlavní stránka</a></li>
+        <li><a href="{{ url_for('views.view_menus') }}" class="active">Nabídka jídel</a></li>
+        <li><a href="{{ url_for('views.restaurant_orders') }}">Správa objednávek</a></li>
+    </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Upravit Domovskou Stránku</h1>
+        
+        <!-- Sekce pro úpravu textů -->
+        <section>
+            <h2>Text na Hlavní Stránce</h2>
+            <form method="POST" action="{{ url_for('views.update_texts') }}">
+                <textarea name="homepage_text" rows="10" cols="80">{{ homepage_text }}</textarea>
+                <button type="submit">Uložit změny</button>
+            </form>
+        </section>
+
+        <!-- Sekce pro úpravu obrázku -->
+        <section>
+            <h2>Obrázek na Hlavní Stránce</h2>
+            <form method="POST" action="{{ url_for('views.update_image') }}" enctype="multipart/form-data">
+                <label for="image">Vyberte nový obrázek:</label>
+                <input type="file" name="image" accept="image/*">
+                <button type="submit">Nahrát obrázek</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Restaurace</p>
+    </footer>
+</body>
+</html>
+

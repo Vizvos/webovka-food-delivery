@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail objednávky pro restaurace</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="restaurant-nav">
+            <ul>
+                <li><a href="{{ url_for('views.edit_homepage') }}">Hlavní stránka</a></li>
+                <li><a href="{{ url_for('views.view_menus') }}">Nabídka jídel</a></li>
+                <li><a href="{{ url_for('views.restaurant_orders') }}" class="active">Správa objednávek</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Odhlásit se</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="order-detail">
+            <h2>Detail objednávky: #{{ order.id }}</h2>
+            <p><strong>Čas objednání:</strong> {{ order.datum_objednani.strftime('%d.%m.%Y %H:%M') }}</p>
+            <p><strong>Stav objednávky:</strong> {{ order.doruceni.stav_objednavky }}</p>
+            <p><strong>Adresa doručení:</strong> {{ order.doruceni.doruceni_adresa }}</p>
+            <p><strong>Celková cena:</strong> {{ order.cena }} Kč</p>
+            <p><strong>Způsob platby:</strong> {{ order.zpusob_platby }}</p>
+
+            <h3>Položky objednávky</h3>
+            <ul>
+                {% for food in order.foods %}
+                <li>{{ food.name }} - {{ food.price }} Kč</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+            <p>&copy; 2024 Restaurace</p>
+        </div>
+    </footer>
+</body>
+</html>
+

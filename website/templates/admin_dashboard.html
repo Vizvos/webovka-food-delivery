@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav-list">
+                <a href="{{ url_for('views.admin_dashboard') }}" class="logo">
+                    <img src="static/images/logo.png " alt="Logo" class="logo-img">
+                </a>
+                <li><a href="{{ url_for('views.admin_approval') }}">Schvalování</a></li>
+                <li><a href="{{ url_for('views.admin_statistics') }}">Statistiky</a></li>
+                <li><a href="{{ url_for('views.admin_manage') }}">Správa</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Odhlásit se</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Vítejte v Admin Panelu</h1>
+        <p>Zde můžete spravovat restaurace, poslíčky a sledovat statistiky projektu.</p>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <img src="static/images/logo.png" alt="Logo" class="footer-logo">
+            <p>&copy; 2024 Restaurace</p>
+        </div>
+    </footer>
+
+    <script>
+        let subMenu = document.getElementById("subMenu");
+        function toggleMenu(){
+            subMenu.classList.toggle("open-menu");
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <ul class="nav-list">
+                <a href="{{ url_for('views.index') }}" class="logo">
+                    <img src="static/images/logo.png" alt="Logo" class="logo-img">
+                </a>
+                <li><a href="{{ url_for('views.index') }}">O nás</a></li>
+                <li><a href="{{ url_for('views.nabidka') }}">Nabídka</a></li>
+                <li><a href="{{ url_for('views.objednat') }}">Objednat</a></li>
+                <li><a href="{{ url_for('views.historie') }}">Historie</a></li>
+                <li><a href="{{ url_for('views.cart') }}">Košík</a></li>
+                <img src="static/images/profile.png" alt="User" class="user-button-img" onclick="toggleMenu()">
+                    
+            </ul>
+           
+        </nav>
+    </header>
+
+   
+
+    <main>
+        <section class="login-section">
+            
+            <div id="login-form">
+                <form method="POST" >
+                    <h1>Registrace</h1>
+                    <div class="form">
+                        <label for="email">Email</label><br>
+                        <input 
+                            type="email" 
+                            class="inputfield" 
+                            id="email" 
+                            name="email" 
+                            placeholder="Enter email">
+                    </div>
+                    <div class="form">
+                        <label for="firstName">Firstname</label><br>
+                        <input 
+                            type="firstName" 
+                            class="inputfield" 
+                            id="firstName" 
+                            name="firstName" 
+                            placeholder="Enter first name">
+                    </div>
+                    <div class="form">
+                        <label for="lastName">Lastname</label><br>
+                        <input 
+                            type="lastName" 
+                            class="inputfield" 
+                            id="lastName" 
+                            name="lastName" 
+                            placeholder="Enter last name">
+                    </div>
+                    <div class="form">
+                        <label for="password1">Password</label><br>
+                        <input 
+                            type="password" 
+                            class="inputfield" 
+                            id="password1" 
+                            name="password1" 
+                            placeholder="Enter password">
+                    </div>
+                    <div class="form">
+                        <label for="password2">Password (confirm)</label><br>
+                        <input 
+                            type="password" 
+                            class="inputfield" 
+                            id="password2" 
+                            name="password2" 
+                            placeholder="Confirm password">
+                    </div>
+                    <br />
+                    <button type="submit" class="login-button">Registrovat</button>
+                </form>
+                <a href="{{ url_for('auth.login') }}">Already have an account? Log In</a>
+            </div>
+        </section>
+    </main>
+
+    <div class="login-section">
+        <a href="{{ url_for('auth.courierRegister') }}"><button class = "login-button">Registrovat jako posliček</button></a>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <img src="static/images/logo.png" alt="Logo" class="footer-logo">
+            <p>&copy; 2024 Restaurace</p>
+        </div>
+    </footer>
+</body>
+
+</html>

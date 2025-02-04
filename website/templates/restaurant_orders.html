@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Správa Objednávek</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="restaurant-nav">
+         <ul>
+        <li><a href="{{ url_for('views.edit_homepage') }}">Hlavní stránka</a></li>
+        <li><a href="{{ url_for('views.view_menus') }}" class="active">Nabídka jídel</a></li>
+        <li><a href="{{ url_for('views.restaurant_orders') }}">Správa objednávek</a></li>
+         <li><a href="{{ url_for('auth.logout') }}">Odhlásit se</a></li>
+    </ul>
+        </nav>
+    </header>
+
+    <main>
+       <h2>Aktuální Objednávky:</h2>
+<div class="orders-container">
+    {% for order in orders %}
+<div class="order-card">
+    <h3>Objednávka #{{ order.id }}</h3>
+    <p>Čas objednání: {{ order.datum_objednani.strftime('%d.%m.%Y %H:%M') }}</p>
+    <p>Stav: {{ order.doruceni.stav_objednavky }}</p>
+    <p>Adresa: {{ order.doruceni.doruceni_adresa }}</p>
+    <a href="{{ url_for('views.restaurant_order_detail', order_id=order.id) }}" class="details-btn">Zobrazit Detail</a>
+    {%if order.doruceni.stav_objednavky == "Čeká na zpracování"%}
+        <a href="{{ url_for('views.order_ready', id=order.id) }}" class="details-btn">Potvrdit objednavku</a>
+    {%endif%}
+</div>
+{% else %}
+<p>Žádné objednávky pro tuto restauraci.</p>
+{% endfor %}
+
+
+
+{% if selected_order %}
+<div class="order-detail">
+    <h3>Detail Objednávky: #{{ selected_order.id }}</h3>
+    <p>Čas objednání: {{ selected_order.datum_objednani }}</p>
+    <p>Celková cena: {{ selected_order.cena }} Kč</p>
+    <p>Způsob platby: {{ selected_order.zpusob_platby }}</p>
+</div>
+{% endif %}
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+            <p>&copy; 2024 Restaurace</p>
+        </div>
+    </footer>
+</body>
+</html>
+

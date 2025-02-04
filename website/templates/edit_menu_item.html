@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upravit Jídlo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Upravit Jídlo</h1>
+    </header>
+    <main>
+        <form method="POST">
+            <label for="name">Název:</label>
+            <input type="text" id="name" name="name" value="{{ item.name }}" required>
+            
+            <label for="description">Popis:</label>
+            <textarea id="description" name="description" required>{{ item.description }}</textarea>
+            
+            <label for="price">Cena:</label>
+            <input type="number" id="price" name="price" value="{{ item.price }}" required>
+            
+            <label for="category">Kategorie:</label>
+            <input type="text" id="category" name="category" value="{{ item.category }}">
+            
+            <label for="image">Obrázek (URL):</label>
+            <input type="text" id="image" name="image" value="{{ item.image }}">
+            
+            <button type="submit">Upravit</button>
+        </form>
+    </main>
+</body>
+</html>
+

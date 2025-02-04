@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <ul class="nav-list">
+                <a href="{{ url_for('views.index') }}" class="logo">
+                    <img src="static/images/logo.png" alt="Logo" class="logo-img">
+                </a>
+                <li><a href="{{ url_for('views.index') }}">O nás</a></li>
+                <li><a href="{{ url_for('views.nabidka') }}">Nabídka</a></li>
+                <li><a href="{{ url_for('views.objednat') }}">Objednat</a></li>
+                <li><a href="{{ url_for('views.historie') }}">Historie</a></li>
+                <li><a href="{{ url_for('views.cart') }}">Košík</a></li>
+                <img src="static/images/profile.png" alt="User" class="user-button-img" onclick="toggleMenu()">
+                    
+            </ul>
+           
+        </nav>
+    </header>
+
+    
+
+    <main>
+        <section class="login-section">
+            <div id="login-form">
+                <form method="POST" >
+                    <h1>Přihlášení</h1>
+                    <div class="form">
+                        <label for="email">Email</label><br>
+                        <input 
+                            type="email" 
+                            class="inputfield" 
+                            id="email" 
+                            name="email" 
+                            placeholder="Enter email">
+                    </div>
+                    <div class="form">
+                        <label for="password">Password</label>
+                        <input 
+                            type="password" 
+                            class="inputfield" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Enter password">
+                    </div>
+                    <br />
+                    <button type="submit" class="login-button">Přihlásit</button>
+                </form>
+                <a href="{{ url_for('auth.sign_up') }}">Don't have an account? Sign Up</a>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <img src="static/images/logo.png" alt="Logo" class="footer-logo">
+            <p>&copy; 2024 Restaurace</p>
+        </div>
+    </footer>
+</body>
+
+</html>

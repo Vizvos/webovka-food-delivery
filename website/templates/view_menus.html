@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nabídka Restaurací</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="restaurant-nav">
+    <ul>
+        <li><a href="{{ url_for('views.edit_homepage') }}">Hlavní stránka</a></li>
+        <li><a href="{{ url_for('views.view_menus') }}" class="active">Nabídka jídel</a></li>
+        <li><a href="{{ url_for('views.restaurant_orders') }}">Správa objednávek</a></li>
+        <li><a href="{{ url_for('auth.logout') }}">Odhlásit se</a></li>
+    </ul>
+</nav>
+
+        <h1 style="color: #FFD700;">Nabídka Jídel</h1>
+
+        <a href="{{ url_for('views.add_menu_item') }}" class="add-menu-button">Přidat Jídlo</a>
+    </header>
+    <main>
+        <section class="menu-items">
+            {% for item in menus %}
+            <div class="menu-item">
+                <h2>{{ item.name }}</h2>
+                <img src="{{ item.image }}" alt="{{ item.name }}" />
+                <p>{{ item.description }}</p>
+                <p>Cena: {{ item.price }} Kč</p>
+                <p>Kategorie: {{ item.category }}</p>
+                <div class="menu-item-actions">
+                    <a href="{{ url_for('views.edit_menu_item', item_id=item.id) }}" class="edit-button">Upravit</a>
+                    <form method="POST" action="{{ url_for('views.delete_menu_item', item_id=item.id) }}">
+                        <button type="submit" class="delete-button">Odstranit</button>
+                    </form>
+                    {% if item in nabidkas  %}
+                        <a href="{{ url_for('views.remove_item_fromMenu', id=item.id) }}" class="edit-button">Odebrat z menu</a>
+                    {% else %}
+                        <a href="{{ url_for('views.add_item_toMenu', id=item.id) }}" class="edit-button">Pridat do menu</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+    </main>
+</body>
+</html>
+

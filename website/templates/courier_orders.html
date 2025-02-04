@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objednávky pro poslíčky</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav-list">
+                <a href="{{ url_for('views.index') }}" class="logo">
+                    <img src="static/images/logo.png" alt="Logo" class="logo-img">
+                </a>
+                <li><a href="{{ url_for('views.courier_orders') }}">Objednávky</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Odhlásit se</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-content">
+            <h1>Objednávky, které můžete doručit</h1>
+            <section class="orders-section">
+                {% if orders %}
+                    {% for order in orders %}
+                        {% if order.doruceni.stav_objednavky == "Potvrzeno" %}
+                        {% if order.doruceni.poslicek_id == 0 %}
+                            <div class="order-card">
+                                <h3>Objednávka #{{ order.id }}</h3>
+                                <p><strong>Datum:</strong> {{ order.datum_objednani|to_cz_time }}</p>
+                                <p><strong>Adresa doručení:</strong> {{ order.doruceni_adresa }}</p>
+                                <p><strong>Cena:</strong> {{ order.cena }} Kč</p>
+                                <p><strong>Způsob platby:</strong> {{ order.zpusob_platby }}</p>
+                                <p><strong>stav:</strong> {{ order.doruceni.stav_objednavky }}</p>
+                                <a href="{{ url_for('views.accept_order', id=order.doruceni_id) }}" name="order_id"><button type="submit" class="accept-btn">Přijmout</button></a>
+                            </div>
+                        {%endif%}
+                        {%endif%}
+                        {% if order.doruceni.stav_objednavky == "přijato kuryrem"%}
+                        {% if order.doruceni.poslicek_id == current_user.id %}
+                            <div class="order-card">
+                                <h3>Objednávka #{{ order.id }}</h3>
+                                <p><strong>Datum:</strong> {{ order.datum_objednani|to_cz_time }}</p>
+                                <p><strong>Adresa doručení:</strong> {{ order.doruceni_adresa }}</p>
+                                <p><strong>Cena:</strong> {{ order.cena }} Kč</p>
+                                <p><strong>Způsob platby:</strong> {{ order.zpusob_platby }}</p>
+                                <p><strong>stav:</strong> {{ order.doruceni.stav_objednavky }}</p>
+                                <a href="" name="order_id"><button type="submit" class="accept-btn">Detail</button></a>
+                                <a href="{{ url_for('views.order_leave', id=order.id) }}" name="order_id"><button type="submit" class="accept-btn">Opustit objednavku</button></a>
+                                <a href="{{ url_for('views.order_complete', id=order.id) }}" name="order_id"><button type="submit" class="accept-btn">Doručeno</button></a>
+                            </div>
+                        {%endif%}
+                        {%endif%}
+                    {% endfor %}
+                {% else %}
+                    <p>Žádné dostupné objednávky.</p>
+                {% endif %}
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <img src="static/images/logo.png" alt="Logo" class="footer-logo">
+            <p>&copy; 2024 Restaurace</p>
+        </div>
+    </footer>
+</body>
+</html>
+

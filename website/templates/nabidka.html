@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nabídka</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body >
+    <header>
+        <nav>
+            <ul class="nav-list">
+                <a href="{{ url_for('views.index') }}" class="logo">
+                    <img src="static/images/logo.png" alt="Logo" class="logo-img">
+                </a>
+                <li><a href="{{ url_for('views.index') }}">O nás</a></li>
+                <li><a href="{{ url_for('views.nabidka') }}">Nabídka</a></li>
+                <li><a href="{{ url_for('views.objednat') }}">Objednat</a></li>
+                <li><a href="{{ url_for('views.historie') }}">Historie</a></li>
+                <li><a href="{{ url_for('views.cart') }}">Košík</a></li>
+                <img src="static/images/profile.png" alt="User" class="user-button-img" onclick="toggleMenu()">
+                    
+            </ul>
+            <div class="sub-menu-wrap" id="subMenu">
+                <div class="sub-menu">
+                    {% if current_user.is_authenticated %}
+                    <div class="user-info">
+                        <img src="static/images/user-button-img.png">
+                        <div>
+                            <h3>{{ current_user.firstName }}</h3>
+                            <p>{{current_user.email}}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <a href="{{ url_for('views.profil') }}" class="sub-menu-link">
+                        <img src="static/images/profile.png">
+                        <p>Edit Profile</p>
+                        <span>></span>
+                    </a>
+                    <a href="{{ url_for('views.index') }}" class="sub-menu-link">
+                        <img src="static/images/help.png">
+                        <p>Help</p>
+                        <span>></span>
+                    </a>
+                    <a href="{{ url_for('auth.logout') }}" class="sub-menu-link">
+                        <img src="static/images/logout.png">
+                        <p>Log out</p>
+                        <span>></span>
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="sub-menu-link">
+                        <img src="static/images/profile.png">
+                        <p>Log in</p>
+                        <span>></span>
+                    </a>
+                    <a href="{{ url_for('auth.sign_up') }}" class="sub-menu-link">
+                        <img src="static/images/settings.png">
+                        <p>Register</p>
+                        <span>></span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-content-nabidka">
+        <section>
+            <div class="nabidka-nadpis">
+                <h1>Týdenní menu</h1>
+            </div>
+            <div class="weeklyMenu">
+                <!-- Dynamicky načtené položky -->
+            </div>
+        </section>
+    </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <img src="static/images/logo.png" alt="Logo" class="footer-logo">
+            <p>&copy; 2024 Restaurace</p>
+        </div>
+    </footer>
+    <script>
+        let subMenu = document.getElementById("subMenu");
+        function toggleMenu(){
+            subMenu.classList.toggle("open-menu");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Košík</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav-list">
+                <a href="{{ url_for('views.index') }}" class="logo">
+                    <img src="static/images/logo.png" alt="Logo" class="logo-img">
+                </a>
+                <li><a href="{{ url_for('views.index') }}">O nás</a></li>
+                <li><a href="{{ url_for('views.nabidka') }}">Nabídka</a></li>
+                <li><a href="{{ url_for('views.objednat') }}">Objednat</a></li>
+                <li><a href="{{ url_for('views.historie') }}">Historie</a></li>
+                <li><a href="{{ url_for('views.cart') }}">Košík</a></li>
+                <img src="static/images/profile.png" alt="User" class="user-button-img" onclick="toggleMenu()">
+                    
+            </ul>
+            <div class="sub-menu-wrap" id="subMenu">
+                <div class="sub-menu">
+                    {% if current_user.is_authenticated %}
+                    <div class="user-info">
+                        <img src="static/images/user-button-img.png">
+                        <div>
+                            <h3>{{ current_user.firstName }}</h3>
+                            <p>{{current_user.email}}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <a href="{{ url_for('views.profil') }}" class="sub-menu-link">
+                        <img src="static/images/profile.png">
+                        <p>Edit Profile</p>
+                        <span>></span>
+                    </a>
+                    <a href="{{ url_for('views.index') }}" class="sub-menu-link">
+                        <img src="static/images/help.png">
+                        <p>Help</p>
+                        <span>></span>
+                    </a>
+                    <a href="{{ url_for('auth.logout') }}" class="sub-menu-link">
+                        <img src="static/images/logout.png">
+                        <p>Log out</p>
+                        <span>></span>
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="sub-menu-link">
+                        <img src="static/images/profile.png">
+                        <p>Log in</p>
+                        <span>></span>
+                    </a>
+                    <a href="{{ url_for('auth.sign_up') }}" class="sub-menu-link">
+                        <img src="static/images/settings.png">
+                        <p>Register</p>
+                        <span>></span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        
+    <div class="cart-section">
+        <h1>Váš košík</h1>
+        
+        <div id="cart-content" class="cart-content">
+            {% for item in cart_items%}
+            
+            <div class="cart-item">
+            <img src="{{item.image}}" alt="image" class="cart-item-img">
+                    <div class="cart-item-details">
+                        <h3>{{item.name}}</h3>
+                        <p>Delší popis produktu. Může obsahovat ingredience nebo další detaily.</p>
+                    </div>
+                    <div id="quantity" class="cart-item-quantity">
+                        <label for="quantity">Množství:</label>
+                        <input type="number" value={{quantity}} min="1" step="1" id="quantity-input">
+                    </div>
+                    <div class="cart-item-price">
+                        <p>{{item.price}} Kč</p>
+                    </div>
+                    <a href="{{url_for('views.remove_from_cart', id= item.id)}}"><button class="remove-btn">Odstranit</button></a>
+                </div>
+            {%endfor%}
+
+            <!-- Dynamický obsah košíku 
+            <div class="cart-item">
+                <img src="static/images/placeholder.png" alt="Produkt" class="cart-item-img">
+                <div class="cart-item-details">
+                    <h3>Název produktu</h3>
+                    <p>Delší popis produktu. Může obsahovat ingredience nebo další detaily.</p>
+                </div>
+                <div class="cart-item-quantity">
+                    <label for="quantity">Množství:</label>
+                    <input id="cart-count" type="number" value="1" min="1" step="1">
+                </div>
+                <div class="cart-item-price">
+                    <p>250 Kč</p>
+                </div>
+                <button class="remove-btn">Odstranit</button>
+            </div>-->
+        </div>
+        <div class="cart-summary">
+            <p>Celková cena: <span id="total-price">{{ celkovaCena }} Kč</span></p>
+            {% if current_user.is_authenticated %}
+                <a href="/platba" class="checkout-btn">Přejít k platbě</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="checkout-btn">Přihlásit se</a>
+            {% endif %}
+        </div>
+    </div>
+</main>
+
+<script>
+    // Funkce pro odeslání aktualizovaného množství na server
+    document.getElementById('quantity-input').addEventListener('change', function() {
+        var quantity = this.value;  // Získání nové hodnoty z inputu
+        var itemId = item.id;  // Zde bude ID položky z košíku (zde pro příklad je 52, změňte podle potřeby)
+
+        // Odeslání AJAX požadavku na server pro aktualizaci košíku
+        fetch(`/update_cart/${itemId}/${quantity}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+                quantity: quantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Zde můžete upravit DOM, například zobrazení nové ceny nebo upozornění uživatele
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Chyba při aktualizaci košíku:', error);
+        });
+    });
+</script>
+
+<footer>
+    <div class="footer-content">
+        <img src="static/images/logo.png" alt="Logo" class="footer-logo">
+        <p>&copy; 2024 Restaurace</p>
+    </div>
+</footer>
+    <script>
+        let subMenu = document.getElementById("subMenu");
+        function toggleMenu(){
+            subMenu.classList.toggle("open-menu");
+        }
+    </script>
+</body>
+</html>
+
+

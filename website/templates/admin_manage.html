@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Správa - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav-list">
+                <a href="{{ url_for('views.admin_dashboard') }}" class="logo">
+                    <img src="static/images/logo.png" alt="Logo" class="logo-img">
+                </a>
+                <li><a href="{{ url_for('views.admin_approval') }}">Schvalování</a></li>
+                <li><a href="{{ url_for('views.admin_statistics') }}">Statistiky</a></li>
+                <li><a href="{{ url_for('views.admin_manage') }}" class="active">Správa</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Odhlásit se</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="sprava-main">
+        <div>
+        <h1>Správa Restaurací a Poslíčků</h1>
+        
+        <div class="sprava-main-div">
+            <section class="table-handler">
+                <h2>Restaurace</h2>
+                <a type="button" class="login-button" href="{{ url_for('auth.restaurant_register') }}">Přidat restauraci</a>
+                <table class="table">
+                    <thead class="table-headlines">
+                        <tr class="table-headlines2">
+                            <th class="th">ID</th>
+                            <th class="th">Název</th>
+                            <th class="th">Email</th>
+                            <th class="th">Telefon</th>
+                            <th class="th">Akce</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for restaurant in restaurants %}
+                        <tr class="table-vypis">
+                            <td class="id">{{ restaurant.id}}</td>
+                            <td>{{ restaurant.nazev }}</td>
+                            <td>{{ restaurant.email }}</td>
+                            <td>{{ restaurant.telefon }}</td>
+                            <td>
+                                <a href="{{ url_for('views.adminUpravit', id=restaurant.id) }}"><button>Upravit</button></a>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('views.adminSmazat', id=restaurant.id) }}"><button>Smazat</button></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+
+        <section class="table-handleler">
+            <h2>Poslíčci</h2>
+            <button class="login-button">Přidat poslicka</button>
+            <table class="table">
+                <thead class="table-headlines">
+                    <tr class="table-headlines2">
+                        <th class="th">ID</th>
+                        <th class="th">Jméno</th>
+                        <th class="th">Email</th>
+                        <th class="th">Telefon</th>
+                        <th class="th">Akce</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for courier in couriers %}
+                    <tr>
+                        <td>{{ courier.id }}</td>
+                        <td>{{ courier.name }}</td>
+                        <td>{{ courier.email }}</td>
+                        <td>{{ courier.phone }}</td>
+                        <td>
+                            <button>Upravit</button>
+                            <button>Smazat</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <img src="static/images/logo.png" alt="Logo" class="footer-logo">
+            <p>&copy; 2024 Restaurace</p>
+        </div>
+    </footer>
+
+    <script>
+        let subMenu = document.getElementById("subMenu");
+        function toggleMenu(){
+            subMenu.classList.toggle("open-menu");
+        }
+    </script>
+</body>
+</html>
+

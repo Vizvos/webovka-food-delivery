@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historie objednávek</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav-list">
+                <a href="{{ url_for('views.index') }}" class="logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo-img">
+                </a>
+                <li><a href="{{ url_for('views.index') }}">O nás</a></li>
+                <li><a href="{{ url_for('views.nabidka') }}">Nabídka</a></li>
+                <li><a href="{{ url_for('views.objednat') }}">Objednat</a></li>
+                <li><a href="{{ url_for('views.historie') }}">Historie</a></li>
+                <li><a href="{{ url_for('views.cart') }}">Košík</a></li>
+                <img src="{{ url_for('static', filename='images/profile.png') }}" alt="User" class="user-button-img" onclick="toggleMenu()">
+            </ul>
+            <div class="sub-menu-wrap" id="subMenu">
+                <div class="sub-menu">
+                    {% if current_user.is_authenticated %}
+                    <div class="user-info">
+                        <img src="{{ url_for('static', filename='images/user-button-img.png') }}">
+                        <div>
+                            <h3>{{ current_user.firstName }}</h3>
+                            <p>{{ current_user.email }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <a href="{{ url_for('views.profil') }}" class="sub-menu-link">
+                        <img src="{{ url_for('static', filename='images/profile.png') }}">
+                        <p>Edit Profile</p>
+                        <span>></span>
+                    </a>
+                    <a href="{{ url_for('views.index') }}" class="sub-menu-link">
+                        <img src="{{ url_for('static', filename='images/help.png') }}">
+                        <p>Help</p>
+                        <span>></span>
+                    </a>
+                    <a href="{{ url_for('auth.logout') }}" class="sub-menu-link">
+                        <img src="{{ url_for('static', filename='images/logout.png') }}">
+                        <p>Log out</p>
+                        <span>></span>
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="sub-menu-link">
+                        <img src="{{ url_for('static', filename='images/profile.png') }}">
+                        <p>Log in</p>
+                        <span>></span>
+                    </a>
+                    <a href="{{ url_for('auth.sign_up') }}" class="sub-menu-link">
+                        <img src="{{ url_for('static', filename='images/settings.png') }}">
+                        <p>Register</p>
+                        <span>></span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% if current_user.is_authenticated %}
+        <section class="history-section">
+            <h1>Historie objednávek</h1>
+            <div id="order-history">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Datum</th>
+                            <th>Stav</th>
+                            <th>Cena</th>
+                            <th>Platba</th>
+                            <th>Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.datum_objednani.strftime('%d.%m.%Y %H:%M') }}</td>
+                            <td>
+                                {% if order.doruceni %}
+                                    {{ order.doruceni.stav_objednavky }}
+                                {% else %}
+                                    <span class="error">Chybí doručení</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ order.cena }} Kč</td>
+                            <td>{{ order.zpusob_platby }}</td>
+                            <td>
+                                <a href="{{ url_for('views.order_details', order_id=order.id) }}">Zobrazit</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        {% else %}
+        <section class="history-section">
+            <h1>Pro zobrazení historie se přihlašte</h1>
+            <div id="login-button">
+                <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Přihlásit</a>
+            </div>
+        </section>
+        {% endif %}
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+            <p>&copy; 2024 Restaurace</p>
+        </div>
+    </footer>
+    <script>
+        let subMenu = document.getElementById("subMenu");
+        function toggleMenu(){
+            subMenu.classList.toggle("open-menu");
+        }
+    </script>
+</body>
+</html>
+
+

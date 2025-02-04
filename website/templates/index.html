@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Název restaurace</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="index-body">
+
+    <header>
+        <nav>
+            <ul class="nav-list">
+                <a href="{{ url_for('views.index') }}" class="logo">
+                    <img src="static/images/logo.png" alt="Logo" class="logo-img">
+                </a>
+                <li><a href="{{ url_for('views.index') }}">O nás</a></li>
+                <li><a href="{{ url_for('views.nabidka') }}">Nabídka</a></li>
+                <li><a href="{{ url_for('views.objednat') }}">Objednat</a></li>
+                <li><a href="{{ url_for('views.historie') }}">Historie</a></li>
+                <li><a href="{{ url_for('views.cart') }}">Košík</a></li>
+                <img src="static/images/profile.png" alt="User" class="user-button-img" onclick="toggleMenu()">
+                    
+            </ul>
+            <div class="sub-menu-wrap" id="subMenu">
+                <div class="sub-menu">
+                    {% if current_user.is_authenticated %}
+                    <div class="user-info">
+                        <img src="static/images/user-button-img.png">
+                        <div>
+                            <h3>{{ current_user.firstName }}</h3>
+                            <p>{{current_user.email}}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <a href="{{ url_for('views.profil') }}" class="sub-menu-link">
+                        <img src="static/images/profile.png">
+                        <p>Edit Profile</p>
+                        <span>></span>
+                    </a>
+                    <a href="{{ url_for('views.index') }}" class="sub-menu-link">
+                        <img src="static/images/help.png">
+                        <p>Help</p>
+                        <span>></span>
+                    </a>
+                    <a href="{{ url_for('auth.logout') }}" class="sub-menu-link">
+                        <img src="static/images/logout.png">
+                        <p>Log out</p>
+                        <span>></span>
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="sub-menu-link">
+                        <img src="static/images/profile.png">
+                        <p>Log in</p>
+                        <span>></span>
+                    </a>
+                    <a href="{{ url_for('auth.sign_up') }}" class="sub-menu-link">
+                        <img src="static/images/settings.png">
+                        <p>Register</p>
+                        <span>></span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="index-main">   
+        <div class="index-content">
+            <div class="index-headline">
+                <h1 >Název restaurace</h1>
+            </div>
+            <div calss="index-content-inside">
+                <img src="static/images/description.png" alt="description-img" class="description-img">
+                <p>Rychle, chutně, spolehlivě – jídlo až k vašim dveřím!</p>
+            </div>
+        </div>
+
+
+        <div class="index-side-bar">
+            <div class="index-contact-info">
+                <h3>Kontakty:</h3>
+                <p>Restaurace:</p>
+                <p>Telefon: 654164968</p>
+                <p>Email: xycxyc@asdadasd</p>
+                <p>Adresa: asdasd asdasd asd 1325</p>
+                <br>
+                <p>Restaurace 2:</p>
+                <p>Telefon: 654164968</p>
+                <p>Email: xycxyc@asdadasd</p>
+                <p>Adresa: asdasd asdasd asd 1325</p>
+                <br>
+                <p>Restaurace 3:</p>
+                <p>Telefon: 654164968</p>
+                <p>Email: xycxyc@asdadasd</p>
+                <p>Adresa: asdasd asdasd asd 1325</p>
+                <br>
+                <p>Restaurace 4:</p>
+                <p>Telefon: 654164968</p>
+                <p>Email: xycxyc@asdadasd</p>
+                <p>Adresa: asdasd asdasd asd 1325</p>
+                <br>
+                <h3 class="map-name">Kde všude rozvážíme?</h3>
+                <div class="map-placeholder">Mapa</div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+
+    <footer>
+        <div class="footer-content">
+            <img src="static/images/logo.png" alt="Logo" class="footer-logo">
+            <p>&copy; 2024 Restaurace</p>
+        </div>
+    </footer>
+
+    <script>
+        let subMenu = document.getElementById("subMenu");
+        function toggleMenu(){
+            subMenu.classList.toggle("open-menu");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail objednávky</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav-list">
+                <a href="{{ url_for('views.index') }}" class="logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo-img">
+                </a>
+                <li><a href="{{ url_for('views.historie') }}">Historie objednávek</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Odhlásit se</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="order-detail">
+            <h2>Objednávka #{{ order.id }}</h2>
+            <p><strong>Datum:</strong> {{ order.datum_objednani.strftime('%d.%m.%Y %H:%M') }}</p>
+            <p><strong>Stav:</strong> {{ order.doruceni.stav_objednavky }}</p>
+            <p><strong>Adresa doručení:</strong> {{ order.doruceni.doruceni_adresa }}</p>
+            <p><strong>Cena:</strong> {{ order.cena }} Kč</p>
+            <p><strong>Způsob platby:</strong> {{ order.zpusob_platby }}</p>
+            <h3>Položky</h3>
+            <ul>
+                {% if order.foods %}
+                    {% for food in order.foods %}
+                    <li>{{ food.name }} - {{ food.price }} Kč</li>
+                    {% endfor %}
+                {% else %}
+                    <li>Žádné položky</li>
+                {% endif %}
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Rozvoz jídel</p>
+        </div>
+    </footer>
+</body>
+</html>
+

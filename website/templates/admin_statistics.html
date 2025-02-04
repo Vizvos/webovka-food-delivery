@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistiky</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+      <nav>
+            <ul class="nav-list">
+                <a href="{{ url_for('views.admin_dashboard') }}" class="logo">
+                    <img src="static/images/logo.png" alt="Logo" class="logo-img">
+                </a>
+                <li><a href="{{ url_for('views.admin_approval') }}">Schvalování</a></li>
+                <li><a href="{{ url_for('views.admin_statistics') }}" class="active">Statistiky</a></li>
+                <li><a href="{{ url_for('views.admin_manage') }}">Správa</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Odhlásit se</a></li>
+            </ul>
+        </nav>
+    </header>
+    <center>
+    <main class="page-content">
+<div class="statistics-container">
+    <div class="total-revenue">
+        <h1>Celkový příjem:</h1>
+        <p>{{ total_revenue }} Kč</p>
+    </div>
+    <div class="recent-revenue">
+        <h2>Příjmy za posledních 5 dní:</h2>
+        <ul>
+            {% for day, revenue in recent_revenue %}
+            <li>{{ day }}: {{ revenue }} Kč</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+</center>
+
+    </main>
+</body>
+</html>
+
