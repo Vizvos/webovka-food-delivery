@@ -1,3 +1,7 @@
+const searchBarContainerEl = document.querySelector(".search-bar-container");
+const magnifierEl = document.querySelector(".magnifier");
+
+
 document.addEventListener('DOMContentLoaded', () => {
     // Inicializace DOM elementů s kontrolou existence
     const elements = {
@@ -6,13 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
         priceFilter: document.getElementById('price-filter'),
         priceValue: document.getElementById('price-value'),
         applyFiltersButton: document.getElementById('apply-filters'),
-        searchInput: document.querySelector('.search-bar input[type="text"]'),
-        searchButton: document.querySelector('.search-bar button'),
+        searchInput: document.querySelector('.search-bar-container active input[type="text"]'),
+        searchButton: document.querySelector('.search-bar-container active button'),
         totalPriceElement: document.getElementById('total-price'),
         finishOrderButton: document.querySelector('#finish-order-btn')
+        
     };
 
     let fullMenu = [];
+
+    magnifierEl.addEventListener("click", () => {
+        searchBarContainerEl.classList.toggle("active");
+      });
 
     // Načítání dat z API
     fetch('/api/weeklyMenu')

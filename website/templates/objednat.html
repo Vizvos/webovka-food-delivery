@@ -84,10 +84,15 @@
 
     <div class="page-content">
         <div class="menu-section">
-            <div class="search-bar">
-                <input type="text" placeholder="Hledej" class="search-input">
+            <div class="search-bar-container active">
+                <img
+                  src="https://cdn4.iconfinder.com/data/icons/evil-icons-user-interface/64/magnifier-512.png"
+                  alt="magnifier"
+                  class="magnifier"
+                />
+                <input type="text" class="input" placeholder="Search ..." />
                 <button type="button" class="search-btn">Hledat</button>
-            </div>
+              </div>
             <h3 class="menu-headline">Dostupná jídla</h3>
             <div class="menu">
                 {% for item in menu_items %}
@@ -117,6 +122,7 @@
             subMenu.classList.toggle("open-menu");
         }
     </script>
+    <script src="index.js"></script>
 </body>
 </html>
 
